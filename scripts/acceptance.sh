@@ -36,9 +36,16 @@ set_shell_debug_level 2
 REQUIRED_SYSTEM_COMMANDS=(
     "kubectl"
     "python3"
-    "pip"
     "virtualenv"
 )
+
+if [[ "$OSTYPE" != "darwin"* ]]; then
+   # not required on OSX, as pip is installed a python package
+   # during python3 install (via homebrew) and is accessible
+   # once inside the virtualenv
+   REQUIRED_SYSTEM_COMMANDS+=(pip)
+
+fi
 
 if [ "$CLUSTER_PROVIDER" == kind ]; then
    REQUIRED_SYSTEM_COMMANDS+=(kind)
